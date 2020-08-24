@@ -18,6 +18,7 @@ package trigger
 
 import (
 	"context"
+	"github.com/edgexfoundry/go-mod-messaging/pkg/types"
 	"sync"
 
 	"github.com/edgexfoundry/go-mod-bootstrap/bootstrap"
@@ -26,5 +27,5 @@ import (
 // Trigger interface is used to hold event data and allow function to
 type Trigger interface {
 	// Initialize performs post creation initializations
-	Initialize(wg *sync.WaitGroup, ctx context.Context) (bootstrap.Deferred, error)
+	Initialize(wg *sync.WaitGroup, ctx context.Context, background <-chan types.MessageEnvelope) (bootstrap.Deferred, error)
 }

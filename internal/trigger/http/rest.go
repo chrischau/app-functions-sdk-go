@@ -43,8 +43,13 @@ type Trigger struct {
 }
 
 // Initialize initializes the Trigger for logging and REST route
-func (trigger *Trigger) Initialize(appWg *sync.WaitGroup, appCtx context.Context) (bootstrap.Deferred, error) {
+func (trigger *Trigger) Initialize(appWg *sync.WaitGroup, appCtx context.Context, background <-chan types.MessageEnvelope) (bootstrap.Deferred, error) {
 	logger := trigger.EdgeXClients.LoggingClient
+
+	if background != nil {
+		// Is error sufficient here or should we block startup?
+		logger.Error("Background publishing not valid for services using HTTP trigger")
+	}
 
 	logger.Info("Initializing HTTP Trigger")
 	trigger.Webserver.SetupTriggerRoute(internal.ApiTriggerRoute, trigger.requestHandler)

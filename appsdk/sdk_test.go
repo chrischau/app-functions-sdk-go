@@ -17,6 +17,7 @@
 package appsdk
 
 import (
+	"github.com/edgexfoundry/go-mod-messaging/pkg/types"
 	"net/http"
 	"os"
 	"reflect"
@@ -66,6 +67,14 @@ func TestAddRoute(t *testing.T) {
 		return nil
 	})
 
+}
+
+func TestAddBackgroundChannel(t *testing.T) {
+	bg := make(chan types.MessageEnvelope)
+	sdk := AppFunctionsSDK {}
+	sdk.AddBackgroundChannel(bg)
+
+	assert.Equal(t, bg, sdk.backgroundChannel)
 }
 
 func TestSetupHTTPTrigger(t *testing.T) {
